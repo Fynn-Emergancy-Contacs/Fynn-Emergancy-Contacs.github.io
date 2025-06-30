@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emergency Info – Fynn</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #121212;
+      color: #eee;
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .card {
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 1rem;
+    }
+    h1 {
+      text-align: center;
+      margin: 0.2rem 0;
+      font-size: 2rem;
+    }
+    h2 {
+      margin-top: 1.5rem;
+      color: #90caf9;
+      font-size: 1.2rem;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    a {
+      color: #64b5f6;
+      text-decoration: none;
+      margin-right: 0.5rem;
+    }
+    .btn {
+      background: #64b5f6;
+      color: #121212;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      margin: 0.3rem 0.5rem 0.3rem 0;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .note {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #bbb;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="profile.jpg" alt="Fynn’s Photo" class="avatar" />
+    <h1>Fynn Janis Oberwagner</h1>
+    <p><strong>Age:</strong> 12 • <strong>Height:</strong> 150 cm</p>
+    <p><strong>School:</strong> 6th grade at Phorms Campus Berlin Süd</p>
+
+    <h2>💊 Medical Info</h2>
+    <ul>
+      <li><strong>Blood Type:</strong> O‑</li>
+      <li><strong>Organ Donor:</strong> No (<em>Not yet — if I die, please donate my organs</em>)</li>
+      <li><strong>Allergies:</strong> None</li>
+      <li><strong>Medications:</strong> None</li>
+      <li><strong>Notes:</strong> None</li>
+    </ul>
+
+    <h2>📞 Emergency Contacts</h2>
+    <ul>
+      <li><strong>Kerstin Oberwagner (Mother):</strong>
+        <a href="tel:+491733133493">Call</a> •
+        <a href="sms:+491733133493">SMS</a></li>
+      <li><strong>Anjo Vahldiek‑Oberwagner (Father):</strong>
+        <a href="tel:+491731548846">Call</a> •
+        <a href="sms:+491731548846">SMS</a></li>
+      <li><strong>Petra Strietzel (Great Aunt):</strong>
+        <a href="tel:+491732150884">Call</a> •
+        <a href="sms:+491732150884">SMS</a></li>
+      <li><strong>Angelika Vahldiek (Grandma):</strong>
+        <a href="tel:+4915771576370">Call</a> •
+        <a href="sms:+4915771576370">SMS</a></li>
+    </ul>
+
+    <h2>Send location to parrents</h2>
+    <button class="btn" onclick="sendLocationTo('491733133493')">Send to Mom (WhatsApp)</button>
+    <button class="btn" onclick="sendLocationTo('491731548846')">Send to Dad (WhatsApp)</button>
+
+    <h2>🏠 Home</h2>
+    <p>Seehofstraße 125, 14167 Berlin, Germany</p>
+    <a href="https://maps.google.com/?daddr=Seehofstraße+125+Berlin" class="btn">Route Home</a>
+
+    <p class="note">Both of my parents speak English and German and work from home.</p>
+  </div>
+
+  <script>
+    function sendLocationTo(phoneNumber) {
+      if (!navigator.geolocation) {
+        alert("Location not supported.");
+        return;
+      }
+      
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+          const message = encodeURIComponent(
+            "Hello, this is (probably) Fynn's location: " + mapsLink +
+            ". Further information will be provided soon. (This message was sent via NFC.)"
+          );
+          
+          // Redirect to WhatsApp chat with message
+          window.location.href = `https://wa.me/${phoneNumber}?text=${message}`;
+        },
+        () => alert("Could not get location.")
+      );
+    }
+  </script>
+</body>
+</html>
